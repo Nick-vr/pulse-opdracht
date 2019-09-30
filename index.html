@@ -1,0 +1,44 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Verkoopovereenkomsten</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
+    <script>
+      const verkoopovereenkomsten = {}
+      const genereerVerkoopovereenkomsten = () => {
+        const uniqueID = Math.random()
+          .toString(36)
+          .substr(2, 6)
+        const randomAantal = Math.floor(Math.random() * Math.floor(20))
+        const verkopersNaam = faker.name.findName()
+        const artikelNaam = faker.commerce.productName()
+        const artikelPrijs = faker.commerce.price()
+        const artikelAantal = randomAantal
+        const totaalPrijs = randomAantal * artikelAantal
+        const klantVooraam = faker.name.firstName()
+        const klantAchternaam = faker.name.lastName()
+
+        const artikelen = []
+        for (let i = 0; i <= 10; i++) {
+          artikelen.push(faker.commerce.productName())
+        }
+        console.log(artikelen)
+
+        const randomTijd = (min, max) => {
+          const verschil = max.getTime() - min.getTime()
+          const nieuwVerschil = verschil * Math.random()
+          const datum = new Date(min.getTime() + nieuwVerschil)
+          console.log(datum)
+        }
+        const randomDatum = randomTijd(
+          new Date('Jan 1, 2016'),
+          new Date('Dec 31, 2018')
+        )
+      }
+    </script>
+  </head>
+  <body>
+    <button onclick="genereerVerkoopovereenkomsten()">Genereer</button>
+  </body>
+</html>
