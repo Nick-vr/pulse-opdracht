@@ -16,6 +16,7 @@
         const artikelPrijs = faker.commerce.price()
         const klantVooraam = faker.name.firstName()
         const klantAchternaam = faker.name.lastName()
+        const klantNaam = `${klantVooraam} ${klantAchternaam}`
         const klantEmail = `${klantVooraam}.${klantAchternaam}@gmail.com`
 
         const randomNummer = max => Math.floor(Math.random() * Math.floor(max))
@@ -28,7 +29,6 @@
             prijs: parseFloat(artikelPrijs),
           })
         }
-        console.log(artikelen)
 
         const prijs = artikelen.map(({ aantal, prijs }) => aantal * prijs)
         const totaalPrijs = prijs.reduce((a, b) => a + b)
@@ -37,6 +37,7 @@
           const verschil = max.getTime() - min.getTime()
           const nieuwVerschil = verschil * Math.random()
           const datum = new Date(min.getTime() + nieuwVerschil)
+          return datum
         }
 
         const randomDatum = randomTijd(
@@ -46,15 +47,21 @@
 
         verkoopovereenkomst.push({
           id: uniqueID,
+          timestamp: randomDatum,
           artikelen,
-          totaalPrijs,
+          totaalPrijs: `€${totaalPrijs}`,
+          verkopersNaam,
+          klantNaam,
+          klantEmail,
         })
-        console.log(verkoopovereenkomst)
+
+        return verkoopovereenkomst
       }
 
       for (let i = 0; i <= 100; i++) {
         verkoopovereenkomsten.push(genereerVerkoopovereenkomsten())
       }
+
       const verkoopovereenkomstenObj = Object.assign({}, verkoopovereenkomsten)
       const verkoopovereenkomstenJSON = JSON.stringify(verkoopovereenkomstenObj)
       console.log(verkoopovereenkomstenJSON)
