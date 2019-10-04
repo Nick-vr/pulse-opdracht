@@ -5,37 +5,62 @@
     <title>Verkoopovereenkomsten</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Faker/3.1.0/faker.min.js"></script>
     <script>
-      const verkoopovereenkomsten = {}
+      const verkoopovereenkomsten = []
       const genereerVerkoopovereenkomsten = () => {
+        const verkoopovereenkomst = []
         const uniqueID = Math.random()
           .toString(36)
           .substr(2, 6)
-        const randomAantal = Math.floor(Math.random() * Math.floor(20))
+        // const randomAantal = Math.floor(Math.random() * Math.floor(20))
+        // const artikelAantal = randomAantal
+        // const totaalPrijs = randomAantal * artikelAantal
         const verkopersNaam = faker.name.findName()
         const artikelNaam = faker.commerce.productName()
         const artikelPrijs = faker.commerce.price()
-        const artikelAantal = randomAantal
-        const totaalPrijs = randomAantal * artikelAantal
         const klantVooraam = faker.name.firstName()
         const klantAchternaam = faker.name.lastName()
+        const klantEmail = `${klantVooraam}.${klantAchternaam}@gmail.com`
+
+        const randomNummer = max => Math.floor(Math.random() * Math.floor(max))
 
         const artikelen = []
-        for (let i = 0; i <= 10; i++) {
-          artikelen.push(faker.commerce.productName())
+        for (let i = 0; i <= randomNummer(10); i++) {
+          artikelen.push({
+            artikel: artikelNaam,
+            aantal: randomNummer(20),
+            prijs: parseFloat(artikelPrijs),
+          })
         }
         console.log(artikelen)
+
+        const prijs = artikelen.map(({ aantal, prijs }) => aantal * prijs)
+        const totaalPrijs = prijs.reduce((a, b) => a + b)
 
         const randomTijd = (min, max) => {
           const verschil = max.getTime() - min.getTime()
           const nieuwVerschil = verschil * Math.random()
           const datum = new Date(min.getTime() + nieuwVerschil)
-          console.log(datum)
         }
+
         const randomDatum = randomTijd(
           new Date('Jan 1, 2016'),
           new Date('Dec 31, 2018')
         )
+
+        verkoopovereenkomst.push({
+          id: uniqueID,
+          artikelen,
+          totaalPrijs,
+        })
+        console.log(verkoopovereenkomst)
       }
+
+      for (let i = 0; i <= 100; i++) {
+        verkoopovereenkomsten.push(genereerVerkoopovereenkomsten())
+      }
+      const verkoopovereenkomstenObj = Object.assign({}, verkoopovereenkomsten)
+      const verkoopovereenkomstenJSON = JSON.stringify(verkoopovereenkomstenObj)
+      console.log(verkoopovereenkomstenJSON)
     </script>
   </head>
   <body>
